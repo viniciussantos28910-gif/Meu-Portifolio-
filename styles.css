@@ -1,0 +1,431 @@
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0a;
+  --bg2:#111111;
+  --red:#e63946;
+  --red2:#ff6b6b;
+  --red-glow:rgba(230,57,70,0.15);
+  --text:#f5f5f5;
+  --muted:#888;
+  --border:rgba(230,57,70,0.2);
+  --card:rgba(255,255,255,0.03);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;overflow-x:hidden;cursor:none}
+ 
+/* CURSOR */
+#cur{width:10px;height:10px;background:var(--red);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s;mix-blend-mode:normal}
+#cur-ring{width:36px;height:36px;border:1px solid rgba(230,57,70,0.6);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%)}
+ 
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.4rem 4rem;display:flex;align-items:center;justify-content:space-between;transition:background .3s,border .3s}
+nav.scrolled{background:rgba(10,10,10,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.5rem;color:var(--text);letter-spacing:-0.5px}
+.nav-logo span{color:var(--red)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.88rem;font-weight:500;transition:color .2s;position:relative;letter-spacing:.03em}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transition:transform .3s;transform-origin:left}
+.nav-links a:hover,.nav-links a.active{color:var(--text)}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+ 
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;padding:0 8rem;gap:5rem;position:relative;overflow:hidden}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.5}
+ 
+/* FOTO HERO */
+.hero-photo-wrap{flex-shrink:0;position:relative;z-index:1;animation:fadeUp .9s ease both}
+.photo-frame{
+  width:300px;height:380px;
+  border:1px solid var(--red);
+  border-radius:12px;
+  overflow:hidden;
+  position:relative;
+  background:#111;
+  box-shadow:0 0 60px rgba(230,57,70,0.2),inset 0 0 40px rgba(0,0,0,0.5);
+  transition:box-shadow .4s;
+}
+.photo-frame:hover{box-shadow:0 0 100px rgba(230,57,70,0.4),inset 0 0 40px rgba(0,0,0,0.5)}
+.photo-frame img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.photo-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;color:var(--muted);font-size:.82rem;text-align:center;padding:2rem}
+.photo-placeholder svg{opacity:.3}
+.photo-scan{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent);animation:scan 3s linear infinite;pointer-events:none}
+@keyframes scan{0%{top:0;opacity:.8}50%{opacity:.4}100%{top:100%;opacity:0}}
+.photo-corner{position:absolute;width:20px;height:20px;border-color:var(--red);border-style:solid}
+.photo-corner.tl{top:8px;left:8px;border-width:2px 0 0 2px}
+.photo-corner.tr{top:8px;right:8px;border-width:2px 2px 0 0}
+.photo-corner.bl{bottom:8px;left:8px;border-width:0 0 2px 2px}
+.photo-corner.br{bottom:8px;right:8px;border-width:0 2px 2px 0}
+ 
+/* HERO TEXT */
+.hero-content{flex:1;z-index:1}
+.hero-eyebrow{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:1.2rem;display:flex;align-items:center;gap:.8rem;animation:fadeUp .8s .1s ease both;opacity:0}
+.hero-eyebrow::before{content:'';width:30px;height:1px;background:var(--red)}
+.hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,7vw,6.5rem);letter-spacing:2px;line-height:.95;margin-bottom:1.2rem;animation:fadeUp .8s .2s ease both;opacity:0}
+.hero-role{font-size:1.1rem;color:var(--muted);font-weight:400;margin-bottom:1.5rem;animation:fadeUp .8s .3s ease both;opacity:0}
+.hero-desc{font-size:.95rem;color:var(--muted);line-height:1.9;max-width:480px;margin-bottom:2.5rem;animation:fadeUp .8s .4s ease both;opacity:0}
+.hero-actions{display:flex;gap:1rem;align-items:center;animation:fadeUp .8s .5s ease both;opacity:0;flex-wrap:wrap}
+.btn-red{display:inline-flex;align-items:center;gap:.6rem;padding:.85rem 2rem;background:var(--red);color:#fff;border:none;border-radius:100px;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:600;cursor:none;text-decoration:none;transition:transform .2s,box-shadow .2s;letter-spacing:.02em}
+.btn-red:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(230,57,70,0.4)}
+.btn-ghost{display:inline-flex;align-items:center;gap:.6rem;padding:.85rem 2rem;background:transparent;color:var(--text);border:1px solid rgba(255,255,255,0.12);border-radius:100px;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:500;cursor:none;text-decoration:none;transition:all .2s}
+.btn-ghost:hover{border-color:var(--red);color:var(--red)}
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:var(--muted);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;z-index:1;animation:fadeUp .8s 1.2s ease both;opacity:0}
+.scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--red),transparent);animation:scrollAnim 2s ease-in-out infinite}
+@keyframes scrollAnim{0%,100%{opacity:.5;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.2)}}
+ 
+/* RED GRADIENT BG */
+.bg-red-glow{position:fixed;bottom:-200px;right:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(230,57,70,0.08) 0%,transparent 70%);pointer-events:none;z-index:0}
+.bg-red-glow2{position:fixed;top:0;left:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(230,57,70,0.04) 0%,transparent 70%);pointer-events:none;z-index:0}
+ 
+/* SECTION BASE */
+section{position:relative;z-index:1}
+.section-wrap{max-width:1100px;margin:0 auto;padding:7rem 4rem}
+.sec-label{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:.8rem;display:flex;align-items:center;gap:.8rem}
+.sec-label::before{content:'';width:24px;height:1px;background:var(--red)}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:1px;line-height:1;margin-bottom:1rem}
+.sec-sub{color:var(--muted);font-size:.95rem;line-height:1.8;max-width:600px}
+
+/* ==================== SEÇÃO SOBRE ATUALIZADA ==================== */
+
+/* Ajustando o container para usar um grid moderno de duas colunas principais */
+#sobre {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 10%;
+}
+
+/* Organiza o título de um lado e o conteúdo de outro */
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr; /* Lado esquerdo (título) e Lado direito (textos/cards) */
+    gap: 60px;
+    align-items: start;
+    margin-top: 30px;
+}
+
+/* Container do lado esquerdo */
+.about-left {
+    position: sticky;
+    top: 150px;
+}
+
+/* Deixando o subtítulo "SOBRE MIM" mais discreto e moderno */
+.about-left span {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--red);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 15px;
+}
+
+/* O título "QUEM SOU EU" gigante e limpo */
+.about-left h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 58px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/* Lado direito: Bloco de textos e mini-cards */
+.about-right {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+/* Melhorando a legibilidade do texto descritivo */
+.about-text-block {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.about-text-block p {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.8; /* Dá o espaço profissional entre as linhas */
+    font-weight: 300;
+}
+
+.about-text-block p strong {
+    color: var(--text);
+    font-weight: 600;
+}
+
+/* GRID DOS MINI CARDS (Transformando em um design limpo e simétrico) */
+.academic-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 colunas perfeitas lado a lado */
+    gap: 20px;
+    width: 100%;
+}
+
+/* Estilo premium de vidro fosco para as caixas */
+.info-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 30px 25px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.3s ease;
+}
+
+.info-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(230, 57, 70, 0.2); /* Brilho sutil com a sua cor de destaque */
+    transform: translateY(-5px);
+}
+
+/* O número/destaque grande dentro do card */
+.info-item .highlight-num {
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--red);
+    line-height: 1;
+}
+
+/* Ícones minimalistas em vez de emojis para manter o tom profissional */
+.info-item i {
+    font-size: 24px;
+    color: var(--red);
+}
+
+.info-item h4 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text);
+    font-weight: 600;
+    margin: 0;
+}
+
+.info-item p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Responsividade para não quebrar em telas menores */
+@media (max-width: 992px) {
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .about-left {
+        position: static;
+    }
+    .about-left h2 {
+        font-size: 42px;
+    }
+}
+
+@media (max-width: 480px) {
+    .academic-info {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* SKILLS */
+#habilidades{background:rgba(255,255,255,0.01);border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04)}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;margin-top:3rem}
+.skill-card{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:1.8rem 1.5rem;transition:all .3s;position:relative;overflow:hidden;cursor:none}
+.skill-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 50% 0%,rgba(230,57,70,0.08),transparent 70%);opacity:0;transition:opacity .3s}
+.skill-card:hover{border-color:rgba(230,57,70,0.35);transform:translateY(-6px)}
+.skill-card:hover::before{opacity:1}
+/* Novos estilos da Skill Card */
+.skill-top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+.skill-icon-box {
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: var(--icon-color);
+    transition: transform 0.3s, border-color 0.3s;
+}
+.skill-card:hover .skill-icon-box {
+    border-color: var(--icon-color);
+    transform: scale(1.05);
+}
+.skill-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.skill-info h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0;
+    color: var(--text);
+}
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.skill-tags span {
+    font-size: 0.75rem;
+    color: var(--muted);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* --- Estilização dos Novos Níveis de Skill --- */
+.skill-level {
+    font-size: 11px !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-weight: 600;
+    display: inline-block;
+    margin-top: 4px;
+}
+
+/* Cor para tecnologias que você domina bem a base (Ex: HTML) */
+.proficiency-high {
+    background: rgba(46, 213, 115, 0.1);
+    color: #2ed573;
+}
+
+/* Cor para tecnologias em nível intermediário ou de uso constante (Ex: CSS e Git) */
+.proficiency-inter {
+    background: rgba(30, 144, 255, 0.1);
+    color: #1e90ff;
+}
+
+/* Cor para o seu foco principal de evolução no momento (Ex: JavaScript) */
+.proficiency-focus {
+    background: rgba(230, 57, 70, 0.1);
+    color: var(--red);
+}
+
+/* Cor para o que você vê focado nas matérias da faculdade (Ex: Java e Python) */
+.proficiency-academic {
+    background: rgba(164, 176, 190, 0.1);
+    color: #a4b0be;
+}
+
+
+
+
+
+
+.skills-learning{margin-top:2.5rem}
+.skills-learning-title{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem}
+.tags-row{display:flex;gap:.6rem;flex-wrap:wrap}
+.skill-tag{font-size:.75rem;padding:.3rem .9rem;border-radius:4px;border:1px solid rgba(230,57,70,0.25);color:var(--red);background:rgba(230,57,70,0.06);letter-spacing:.04em}
+ 
+/* PROJETOS */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-top:3rem}
+.proj-card{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:14px;overflow:hidden;transition:all .3s;cursor:none}
+.proj-card:hover{border-color:rgba(230,57,70,0.35);transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.4)}
+.proj-thumb{height:180px;display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative;overflow:hidden}
+.proj-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(10,10,10,0.9))}
+.proj-body{padding:1.5rem}
+.proj-tags-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.9rem}
+.proj-tag{font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;background:rgba(230,57,70,0.08);border:1px solid rgba(230,57,70,0.2);color:var(--red);padding:.2rem .7rem;border-radius:3px}
+.proj-title{font-weight:700;font-size:1.05rem;margin-bottom:.5rem}
+.proj-desc{font-size:.85rem;color:var(--muted);line-height:1.7}
+.proj-links{display:flex;gap:1rem;margin-top:1.2rem}
+.proj-link{font-size:.82rem;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:4px;transition:color .2s}
+.proj-link:hover{color:var(--red)}
+ 
+/* TIMELINE */
+#jornada{background:rgba(255,255,255,0.01);border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04)}
+.timeline{position:relative;margin-top:3rem;max-width:680px}
+.timeline::before{content:'';position:absolute;left:18px;top:8px;bottom:0;width:1px;background:linear-gradient(to bottom,var(--red),rgba(230,57,70,0.1))}
+.tl-item{display:flex;gap:2rem;padding-bottom:2.5rem;position:relative}
+.tl-dot{width:36px;height:36px;flex-shrink:0;background:var(--bg);border:1px solid var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;position:relative;z-index:1;transition:box-shadow .3s,background .3s}
+.tl-item:hover .tl-dot{background:rgba(230,57,70,0.1);box-shadow:0 0 20px rgba(230,57,70,0.4)}
+.tl-box{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:1.2rem 1.4rem;flex:1;transition:border-color .3s}
+.tl-item:hover .tl-box{border-color:rgba(230,57,70,0.3)}
+.tl-date{font-size:.72rem;color:var(--red);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem}
+.tl-title{font-weight:700;font-size:.98rem;margin-bottom:.4rem}
+.tl-desc{font-size:.85rem;color:var(--muted);line-height:1.7}
+ 
+/* CONTATO */
+.contato-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:4rem;margin-top:3rem;align-items:start}
+.contato-left h3{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:1px;margin-bottom:.8rem}
+.contato-left p{color:var(--muted);line-height:1.8;font-size:.92rem;margin-bottom:2rem}
+.contact-items{display:flex;flex-direction:column;gap:.8rem}
+.contact-item{display:flex;align-items:center;gap:1rem;background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:1rem 1.2rem;text-decoration:none;color:var(--text);transition:all .25s;cursor:none}
+.contact-item:hover{border-color:rgba(230,57,70,0.4);transform:translateX(4px)}
+.contact-item:hover .ci-icon{background:rgba(230,57,70,0.15);border-color:rgba(230,57,70,0.4)}
+.ci-icon{width:38px;height:38px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;transition:all .25s}
+.ci-text{display:flex;flex-direction:column}
+.ci-label{font-size:.7rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.ci-val{font-size:.88rem;font-weight:500}
+ 
+/* FORM */
+.form-box{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:2rem}
+.form-group{margin-bottom:1.2rem}
+.form-group label{display:block;font-size:.75rem;color:var(--muted);margin-bottom:.5rem;letter-spacing:.08em;text-transform:uppercase}
+.form-group input,.form-group textarea{width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:.8rem 1rem;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:.92rem;outline:none;transition:border-color .2s}
+.form-group input:focus,.form-group textarea:focus{border-color:rgba(230,57,70,0.5)}
+.form-group textarea{min-height:120px;resize:vertical}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+#fstatus{margin-top:.8rem;font-size:.85rem;color:var(--red);text-align:center;min-height:1.2em}
+ 
+/* FOOTER */
+footer{border-top:1px solid rgba(255,255,255,0.06);padding:2.5rem 4rem;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
+.foot-logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.2rem}
+.foot-logo span{color:var(--red)}
+.foot-copy{font-size:.8rem;color:var(--muted)}
+.foot-socials{display:flex;gap:1rem}
+.foot-soc{width:36px;height:36px;border:1px solid rgba(255,255,255,0.08);border-radius:8px;display:flex;align-items:center;justify-content:center;text-decoration:none;color:var(--muted);font-size:.95rem;transition:all .25s;cursor:none}
+.foot-soc:hover{border-color:var(--red);color:var(--red);background:rgba(230,57,70,0.08)}
+ 
+/* SIDE SOCIALS */
+.side-socials{position:fixed;left:2rem;bottom:3rem;z-index:50;display:flex;flex-direction:column;gap:.8rem;align-items:center}
+.side-socials::after{content:'';width:1px;height:50px;background:rgba(255,255,255,0.1);margin-top:.4rem}
+.side-soc{width:34px;height:34px;background:var(--card);border:1px solid rgba(255,255,255,0.08);border-radius:7px;display:flex;align-items:center;justify-content:center;text-decoration:none;color:var(--muted);font-size:.9rem;transition:all .25s;cursor:none}
+.side-soc:hover{border-color:var(--red);color:var(--red);transform:translateX(2px)}
+ 
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+ 
+/* ANIM */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+ 
+/* TILT */
+.tiltable{transform-style:preserve-3d;transition:transform .1s}
+ 
+/* SCROLLBAR */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:rgba(230,57,70,0.4);border-radius:2px}
+ 
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  #hero{flex-direction:column;padding:8rem 1.5rem 5rem;text-align:center;gap:3rem}
+  .hero-eyebrow{justify-content:center}
+  .hero-actions{justify-content:center}
+  .contato-grid{grid-template-columns:1fr;gap:3rem}
+  .section-wrap{padding:5rem 1.5rem}
+  footer{flex-direction:column;gap:1.5rem;text-align:center;padding:2rem 1.5rem}
+  .side-socials{display:none}
+  .form-row{grid-template-columns:1fr}
+}
