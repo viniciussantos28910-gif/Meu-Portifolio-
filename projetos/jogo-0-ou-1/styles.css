@@ -1,0 +1,202 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 300px;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Placar */
+.scoreboard {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.score-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.score-card.vs {
+    font-weight: bold;
+    color: #999;
+}
+
+.score-label {
+    font-size: 12px;
+    color: #666;
+    text-transform: uppercase;
+}
+
+.score-value {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.score-card.player .score-value {
+    color: #28a745;
+}
+
+.score-card.machine .score-value {
+    color: #dc3545;
+}
+
+/* Botões de escolha */
+.instruction {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.choices {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.choice-btn {
+    padding: 10px 15px;
+    background: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 80px;
+    height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.choice-btn:hover {
+    background: #218838;
+}
+
+/* Resultado */
+.result-area {
+    background: #f4f4f4;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.result-text {
+    font-size: 14px;
+    color: #333;
+}
+
+.result-area.win {
+    background: #d4edda;
+}
+
+.result-area.win .result-text {
+    color: #155724;
+    font-weight: bold;
+}
+
+.result-area.lose {
+    background: #f8d7da;
+}
+
+.result-area.lose .result-text {
+    color: #721c24;
+    font-weight: bold;
+}
+
+.result-area.draw {
+    background: #fff3cd;
+}
+
+.result-area.draw .result-text {
+    color: #856404;
+    font-weight: bold;
+}
+
+/* Histórico */
+.history-section h2 {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+li {
+    background: #f4f4f4;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+}
+
+li.win {
+    background: #d4edda;
+    color: #155724;
+}
+
+li.lose {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+li.draw {
+    background: #fff3cd;
+    color: #856404;
+}
+
+li .round-number {
+    font-weight: bold;
+    min-width: 60px;
+}
+
+li .round-result {
+    font-weight: bold;
+}
+
+/* Botão Reset */
+.reset-btn {
+    padding: 10px 15px;
+    background: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.reset-btn:hover {
+    background: #218838;
+}

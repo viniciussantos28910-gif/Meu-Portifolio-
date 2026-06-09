@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo 0 ou 1</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1> 0 ou 1</h1>
+        <p class="subtitle">Escolha 0 ou 1 e desafie a máquina!</p>
+
+        <!-- Placar -->
+        <div class="scoreboard">
+            <div class="score-card player">
+                <span class="score-label">Você</span>
+                <span class="score-value" id="playerScore">0</span>
+            </div>
+            <div class="score-card vs">VS</div>
+            <div class="score-card machine">
+                <span class="score-label">Máquina</span>
+                <span class="score-value" id="machineScore">0</span>
+            </div>
+        </div>
+
+        <!-- Área de entrada -->
+        <input type="number" id="playerInput" placeholder="Digite 0 ou 1" min="0" max="1">
+        <button id="playBtn" onclick="playFromInput()">Jogar</button>
+
+        <!-- Resultado -->
+        <div class="result-area" id="resultArea">
+            <p class="result-text" id="resultText">Escolha 0 ou 1 para começar!</p>
+        </div>
+
+        <!-- Histórico -->
+        <div class="history-section">
+            <h2>Histórico</h2>
+            <ul id="historyList"></ul>
+        </div>
+
+        <!-- Botão Reset -->
+        <button class="reset-btn" id="resetBtn" onclick="resetGame()"> Reiniciar Jogo</button>
+    </div>
+</body>
+</html>
